@@ -43,12 +43,16 @@ This project is designed to analyze and predict various aspects of League of Leg
     ```
 
 ### Usage
-
-1. Run the main script:
+1. To get twitch cookies:
+    ```
+    Follow this video for instructions on how to upload your twitch cookies: https://youtu.be/vhjKJ7huN-w
+    Put the cookies in the file named twitch_cookies.csv
+    ```
+2. Run the main script:
     ```sh
     python better.py
     ```
-2. To analyze data using the Jupyter notebook, open scripts/Main.ipynb:
+3. To analyze data using the Jupyter notebook, open scripts/Main.ipynb:
     ```sh
     jupyter notebook scripts/Main.ipynb
     ```
