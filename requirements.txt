@@ -1,0 +1,9 @@
+asyncio
+fake_useragent
+aiohttp
+pydantic
+rich
+pandas
+scikit-learn
+selenium
+opgg.py
