@@ -65,6 +65,8 @@ def time_set(total_time):
     minutes = int(time_remaining[0])
     seconds = int(time_remaining[1])
 
+    return
+
     if minutes == 0:
         return
     elif minutes == 1:

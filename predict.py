@@ -5,6 +5,7 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException, ElementClickInterceptedException, \
     StaleElementReferenceException
+from selenium.webdriver.common.keys import Keys
 from xpath_and_css_selectors import *
 from point_logic import get_points, how_much_to_bet, time_set
 
@@ -74,13 +75,11 @@ if __name__ == "__main__":
             else:
                 pass
 
-            #WORKS TO HERE
-
             try:
                 my_points = driver.find_element(By.XPATH, points_xpath).text
                 total_points = get_points(my_points)
-                print(total_points)
-                points_to_bet = how_much_to_bet(100)
+                #TODO: figure out how much to bet
+                points_to_bet = 100
 
             except NoSuchElementException as e:
                 try:
@@ -90,9 +89,13 @@ if __name__ == "__main__":
                 continue
 
             total_time_remaining = driver.find_element(By.XPATH, timer).text
+            lastSpace = total_time_remaining.rfind(' ')
+            total_time_remaining = total_time_remaining[lastSpace:]
             total_time_for_func = total_time_remaining.split()[0]
             time_set(total_time_for_func)
             time.sleep(2)
+
+            #WORKS TO HERE
 
             tbv = driver.find_element(By.XPATH, blue_votes).text
             trv = driver.find_element(By.XPATH, red_votes).text
@@ -107,10 +110,13 @@ if __name__ == "__main__":
             else:
                 total_red_votes = get_points(trv)
 
-            driver.find_element(By.XPATH, channel_points_reward_body).click()
+            driver.find_element(By.XPATH, predict_with_custom_amount).click()
+
+            #TODO: make EV calculator to figure out what side to bet
             if total_blue_votes > total_red_votes:
                 red = driver.find_element(By.XPATH, red_field)
                 red.click()
+                time.sleep(2)
                 red.send_keys(points_to_bet)
                 time.sleep(2)
                 red_vote_button = driver.find_element(By.XPATH, red_button)
@@ -120,6 +126,7 @@ if __name__ == "__main__":
             else:
                 blue = driver.find_element(By.XPATH, blue_field)
                 blue.click()
+                time.sleep(2)
                 blue.send_keys(points_to_bet)
                 time.sleep(2)
                 blue_vote_button = driver.find_element(By.XPATH, blue_button)
