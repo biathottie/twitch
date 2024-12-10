@@ -1,5 +1,0 @@
-{
-"code-runner.executorMap": {
-    "python": "set PYTHONIOENCODING=utf8 && python -u",
-}
-}
