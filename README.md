@@ -41,7 +41,9 @@ This project is designed to analyze and predict various aspects of League of Leg
     ```sh
     pip install -r requirements.txt
     ```
+
 ### Usage
+
 1. Run the main script:
     ```sh
     python better.py
@@ -52,11 +54,14 @@ This project is designed to analyze and predict various aspects of League of Leg
     ```
 
 ### Contributing
+
 Contributions are welcome! Please open an issue or submit a pull request for any improvements or bug fixes.
 
 ### License
+
 This project is licensed under the MIT License. See the LICENSE file for details.
 
 ### Acknowledgements
+
 Riot Games for providing the data and API.
 Contributors to the project.
