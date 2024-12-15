@@ -29,7 +29,7 @@ load_dotenv(dotenv_path)
 
 #Touch
 key = os.getenv('RIOT_API_KEY')
-accountNamesToLookAt = [['Air Coots','Prime'],['Glenn Danzig SMP','demon'],['SEN TenZ','81619'],['Karasmai Kayn','NA1'],['I will trade','NA1']]
+accountNamesToLookAt = [['Air Coots','Prime'],['Glenn Danzig SMP','demon'],['SEN TenZ','81619'],['Doublelift','NA1'],['I will trade','NA1']]
 region = ''
 
 #Don't touch
@@ -82,7 +82,6 @@ def getLiveGame():
                 console.print('Error: ', response.status_code)
         except requests.exceptions.RequestException as e:
             console.print('Error: ', e)
-            return 'Error', e
 
     return None
         
@@ -138,10 +137,11 @@ def getData(liveGame):
             playerName = live_game.participants[i].summoner.game_name + '#' + live_game.participants[i].summoner.tagline
             playerInfo[playerIndex].append(playerName)
             playerInfo[playerIndex].append(playerTeam)
-            #playerInfo[playerIndex].append(live_game.participants[i].tier_info.tier.upper())
 
-            #temp
-            playerInfo[playerIndex].append('SILVER')
+            try:
+                playerInfo[playerIndex].append(live_game.participants[i].summoner.league_stats[0].tier_info.tier)
+            except IndexError:
+                playerInfo[playerIndex].append('UNRANKED')
 
             playerInfo[playerIndex].append(1)
             playerInfo[playerIndex].append(playerRole)

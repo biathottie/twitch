@@ -1,0 +1,89 @@
+#TPBodyEl {
+    width: 320px;
+    background-color: rgb(24, 24, 27);
+    text-align: center;
+    color: whitesmoke;
+    cursor: default;
+    font-family: "Segoe UI", Tahoma, sans-serif;
+    border-style: solid;
+    border-color: #9146FF;
+    border-radius: 20px;
+}
+
+#TP_popup_logo {
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
+
+#title {
+    text-align: center;
+    margin-top: -5px;
+    color: #9146FF;
+}
+
+.userInput {
+    padding: 10px 10px 10px 10px;
+    text-align: justify;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    font-family: "Segoe UI", Tahoma, sans-serif;
+}
+
+.labelLine {
+    position: absolute;
+    top: 10px;
+}
+
+#descriptionContainer {
+    padding: 0px 10px 10px 10px;
+}
+
+#extensionDescription {
+    font-family: "Segoe UI", Tahoma, sans-serif;
+    font-weight: 500;
+}
+
+.toggle {
+    --width: 40px;
+    --height: calc(var(--width) / 2);
+    --border-radius: calc(var(--height) / 2);
+
+    padding: 10px 10px 10px 10px;
+
+    display: inline-block;
+    cursor: pointer;
+}
+
+.toggle__input {
+    display: none;
+}
+
+.toggle__fill {
+    position: relative;
+    width: var(--width);
+    height: var(--height);
+    border-radius: var(--border-radius);
+    background: #d14747;
+    transition: background 0.2s;
+}
+
+.toggle__input:checked ~ .toggle__fill{
+    background: #009578;
+}
+
+.toggle__fill::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: var(--height);
+    width: var(--height);
+    background: #ffffff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+    border-radius: var(--border-radius);
+    transition: transform 0.2s;
+}
+
+.toggle__input:checked ~ .toggle__fill::after {
+    transform: translateX(var(--height));
+}

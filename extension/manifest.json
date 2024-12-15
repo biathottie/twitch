@@ -1,0 +1,21 @@
+{
+    "name": "Twitch Point Predictor",
+    "description": "A chrome extension to automatically place bets if they are determined to be positive EV",
+    "version": "1.0",
+    "manifest_version": 3,
+    "permissions": [
+        "storage", 
+        "scripting"
+    ],
+    "host_permissions": ["<all_urls>"],
+    "content_scripts": [
+        {
+            "matches": ["<all_urls>"],
+            "js": ["content.js"]
+        }
+    ],
+    "action": {
+        "default_popup": "main.html",
+        "default_icon": "images/twitch.png"
+    }
+}

@@ -1,0 +1,30 @@
+<html>
+        <head>
+        <link rel="stylesheet" type="text/css" href="popup.css">
+        <meta charset="UTF-8">
+        <title>Previews (For TTV & YT)</title>
+    </head>
+    <body id="TPBodyEl">
+        <div>
+            <img id="TP_popup_logo" src="images/twitch.png" width="96" height="96">
+            <h1 id="title">Twitch Point Predictor</h1>
+        </div>
+        <div>
+            <input class="userInput" id="userList" type="text" placeholder="Username List"/>
+            <input class="userInput" id="pointsToUse" type="number" placeholder="Channel Points Per Bet"/>
+            <input class="userInput" id="evToUse" type="number" placeholder="EV Threshhold"/>
+        </div>
+        <div>
+            <label class="toggle" for="myToggle">
+                <input class="toggle__input" type="checkbox" id="myToggle">
+                <div class="toggle__fill"></div>
+            </label>
+        </div>
+        <div id ="descriptionContainer">
+            <text id="extensionDescription">
+                Once you turn the toggle on, the program will look for predictions to be made, and auto make bets if it is determined to be profitable. If you would like to change any values, toggle the extension off, change values, and then turn it back on.
+            </text>
+        </div>
+        <script src="popup.js"></script>
+    </body>
+</html>
