@@ -15,6 +15,7 @@ from rich.table import Table
 from dotenv import find_dotenv, load_dotenv
 import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
+from flask import Flask, request, jsonify
 
 from opgg.v2 import search_result
 from opgg.v2.opgg import OPGG
@@ -29,25 +30,23 @@ load_dotenv(dotenv_path)
 
 #Touch
 key = os.getenv('RIOT_API_KEY')
-accountNamesToLookAt = [['Air Coots','Prime'],['Glenn Danzig SMP','demon'],['SEN TenZ','81619'],['Doublelift','NA1'],['I will trade','NA1']]
-region = ''
-
-#Don't touch
-puuids = []
-liveGame = []
+accountNamesToLookAt = [['6 foot 5 btw','eeeee'],['Hai on Weed', 'NA1'],['Glenn Danzig SMP','demon'],['the pob','NA1'],['Doublelift','NA1'],['I will trade','NA1']]
 
 blueSideWinProb = 0.0
 redSideWinProb = 0.0
 
 console = Console(highlight=False)
 
-def getPUUIDS():
+app = Flask(__name__)
 
+def getPUUIDS(accountList):
+
+    puuids = []
     MARKDOWN = '# Converting usernames into PUUIDs'
     md = Markdown(MARKDOWN, style='bold')
     console.print(md)
 
-    for account in track(accountNamesToLookAt, description='[bold]Progress...', style='bold white', complete_style='bold cyan', finished_style='bold cyan'):
+    for account in track(accountList, description='[bold]Progress...', style='bold white', complete_style='bold cyan', finished_style='bold cyan'):
         getAccount = f'https://americas.api.riotgames.com/riot/account/v1/accounts/by-riot-id/{account[0]}/{account[1]}?api_key={key}'
 
         try:
@@ -59,16 +58,18 @@ def getPUUIDS():
             else:
                 console.print('Error: ', response.status_code)
         except requests.exceptions.RequestException as e:
-            return 'Error', e
+            console.log('Error: ', e)
 
-def getLiveGame():
+    return puuids
+
+def getLiveGame(puuidList):
 
     console.print('\n')
     MARKDOWN = '# Going through list of PUUIDs'
     md = Markdown(MARKDOWN, style='bold')
     console.print(md)
 
-    for puuid in puuids:
+    for puuid in puuidList:
         getLiveGameCall = f'https://na1.api.riotgames.com/lol/spectator/v5/active-games/by-summoner/{puuid}?api_key={key}'
 
         try:
@@ -260,7 +261,29 @@ def manipulateData():
         md = Markdown(MARKDOWN, style='bold cyan')
         console.print(md)
 
-        return result
+        predictions = [result, float(blueSideWinProb), float(redSideWinProb)]
+
+        return predictions
+
+def getPrediction(playerList):
+    
+    liveGame = getLiveGame(getPUUIDS(playerList))
+
+    if liveGame is not None:
+        getData(liveGame)
+        data = manipulateData()
+        return data
+    else:
+        return 401
+    
+@app.route('/api/process', methods=['POST'])
+def process():
+
+    data = request.json
+    input1 = data.get('input1')
+    
+    result = getPrediction(input1)
+    return jsonify(result)
 
 if __name__ == '__main__':
     
@@ -271,12 +294,6 @@ if __name__ == '__main__':
     MARKDOWN = '### by biathottie'
     md = Markdown(MARKDOWN, style='bold')
     console.print(md)
-
     console.print('\n')
 
-    getPUUIDS()
-    liveGame = getLiveGame()
-
-    if liveGame is not None:
-        getData(liveGame)
-        formattedData = manipulateData()
+    app.run(debug=True)
