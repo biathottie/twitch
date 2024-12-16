@@ -1,24 +1,22 @@
 # League of Legends Data Analysis
 
-This project is designed to analyze and predict various aspects of League of Legends gameplay using data from multiple sources. The project includes scripts for data manipulation, prediction, and scraping.
+This project is designed to analyze data from a set of league of legends ranked game, and use it to determine the win probability of a live game in order to make correct predictions on twitch.tv
 
 ## Files and Directories
 
-- `better.py`: Contains functions for data manipulation and conversion of usernames into PUUIDs.
-- `champion_data.json`: JSON file containing champion data.
+- `better.py`: The flask app responsible for returning the win probabilities of a given game.
+- `champion_data.json`: JSON file containing champion names and IDs.
 - `classifier.pkl`: Pickle file containing a pre-trained classifier model.
-- `gameInfo.csv`: CSV file containing game information.
-- `opgg`: Directory containing scripts related to the OPGG API.
-- `point_logic.py`: Script for calculating points based on game data.
-- `predict.py`: Script for making predictions using the classifier model.
+- `gameInfo.csv`: CSV file containing the ranked game dataset for this project.
+- `opgg`: Temporary library to use the opgg.py.v2 library until it gets published to pip.
 - `requirements.txt`: List of required Python packages.
 - `scripts`: Directory containing various scripts for data manipulation, scraping, and analysis.
   - `combine.py`: Script for combining data from multiple sources.
-  - `Main.ipynb`: Jupyter notebook for data analysis and visualization.
-  - `main.py`: Main script for running the project.
-  - `scrape.py`: Script for scraping data from the web.
-  - `season1414.*.csv`: CSV files containing game data for different seasons.
-  - `xpath_and_css_selectors.py`: Script containing XPath and CSS selectors for web scraping.
+  - `Main.ipynb`: Jupyter notebook for data analysis and visualization. Used to generate the classifier we use.
+  - `main.py`: Main script used to generate the dataset.
+  - `scrape.py`: Script for scraping champion winrate data.
+  - `season1414.*.csv`: CSV files containing champion winrate for each champion per rank for different patches during season 14.
+- `extension`: Directory containing all the neccessary files to run the chrome extension part of this project.
 
 ## Getting Started
 
@@ -43,19 +41,21 @@ This project is designed to analyze and predict various aspects of League of Leg
     ```
 
 ### Usage
-1. To get twitch cookies:
-    ```
-    Follow this video for instructions on how to upload your twitch cookies: https://youtu.be/vhjKJ7huN-w
-    Put the cookies in the file named twitch_cookies.csv
-    ```
+1. Install the chrome extension
+    - Open up chrome://extensions/ on your chrome browser
+    - Enable developer mode
+    - Click load unpacked
+    - Select the extension folder found in this repository<br><br>
+
+    It may be helpful to pin this extension when setting up everything.<br><br>
+
 2. Run the main script:
     ```sh
     python better.py
     ```
-3. To analyze data using the Jupyter notebook, open scripts/Main.ipynb:
-    ```sh
-    jupyter notebook scripts/Main.ipynb
-    ```
+    This will start the flask app that will be returning API calls. Ensure this is running whenever you're using the extension.<br><br>
+3. Use the chrome extension
+    Once you input all neccesary fields and toggle the extension on, it should make automatic bets whenever the program deems it profitable.
 
 ### Contributing
 
@@ -68,4 +68,5 @@ This project is licensed under the MIT License. See the LICENSE file for details
 ### Acknowledgements
 
 Riot Games for providing the data and API.
+The OPGG.py library author for his help in answering questions and implementing useful functions while working on this project.
 Contributors to the project.

@@ -8,3 +8,4 @@ scikit-learn
 selenium
 opgg.py
 python-dotenv
+flask
