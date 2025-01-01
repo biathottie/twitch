@@ -1,49 +1,60 @@
-console.log("test");
+setTimeout(() => {
+    const parentElement = document.querySelector('[data-test-selector="chat-input-buttons-container"]');
 
-function observeDOM(callback) {
-    
-    // Select the target node to observe (in this case, the entire document body)
-    const targetNode = document.body;
+    if (parentElement) {
+        const targetElement = parentElement.querySelector('.Layout-sc-1xcs6mc-0.cwtKyw');
 
-    // Define the configuration for the observer
-    const config = {
-        childList: true,
-        subtree: true,   
-    };
+        if (targetElement) {
+            const newDiv = document.createElement('div');
+            
+            targetElement.style.width = '50px';
+            targetElement.style.display = 'flex';
+            targetElement.style.alignItems = 'center';
 
-    // Create an instance of MutationObserver
-    const observer = new MutationObserver((mutationsList) => {
-        // Iterate through the mutations detected
-        for (const mutation of mutationsList) {
-            if (mutation.type === 'childList') {
-                // Check for added nodes
-                mutation.addedNodes.forEach((node) => {
-                    if (node.nodeType === 1) { // Ensure it's an element node
-                        console.log('New element added:', node);
-                        callback(node); // Trigger the callback with the new node
-                    }
+            const button = document.createElement('button');
+            button.style.width = '20px';
+            button.style.height = '20px';
+            button.style.border = 'none';
+            button.style.padding = '0';
+            button.style.cursor = 'pointer';
+            button.style.verticalAlign = 'middle';
+            button.style.marginRight = '10px';
+
+            button.style.backgroundImage = `url(${chrome.runtime.getURL('images/settings.png')})`; // Replace with your image file name
+            button.style.backgroundSize = 'cover';
+            button.style.backgroundRepeat = 'no-repeat';
+            button.style.backgroundPosition = 'center';
+
+            button.addEventListener('click', () => {
+                const url = "http://127.0.0.1:5000/api/process";
+                const data = {
+                  input1: [["air coots", "prime"]]
+                };
+              
+                fetch(url, {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json"
+                  },
+                  body: JSON.stringify(data)
+                })
+                .then(response => response.json())  // Assuming the API returns JSON
+                .then(data => {
+                  alert("Success: " + JSON.stringify(data));  // Convert data to string to display it
+                })
+                .catch((error) => {
+                  alert("Error: " + error);  // Convert error to string for alert
                 });
-            }
+            });
+
+            newDiv.appendChild(button);
+            targetElement.appendChild(newDiv);
+
+            console.log('Image button added successfully:', newDiv);
+        } else {
+            console.error('Target element with class ".Layout-sc-1xcs6mc-0.cwtKyw" not found inside the parent.');
         }
-    });
-
-    // Start observing the target node with the specified configuration
-    observer.observe(targetNode, config);
-
-    console.log('MutationObserver initialized to track new elements.');
-}
-
-// Example callback function to handle new elements
-function handleNewElement(newElement) {
-    // Example: Check if the new element is a specific type
-    if (newElement.matches('.target-class')) {
-        console.log('A new element with .target-class appeared:', newElement);
+    } else {
+        console.error('Parent element not found.');
     }
-    // Add custom logic here for different element types
-}
-
-// Start observing the page
-document.addEventListener('DOMContentLoaded', () => {
-    console.log("event listener test")
-    observeDOM(handleNewElement);
-});
+}, 1000);

@@ -9,3 +9,4 @@ selenium
 opgg.py
 python-dotenv
 flask
+flask-cors

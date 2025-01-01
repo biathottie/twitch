@@ -16,6 +16,7 @@ from dotenv import find_dotenv, load_dotenv
 import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 
 from opgg.v2 import search_result
 from opgg.v2.opgg import OPGG
@@ -38,6 +39,7 @@ redSideWinProb = 0.0
 console = Console(highlight=False)
 
 app = Flask(__name__)
+CORS(app)
 
 def getPUUIDS(accountList):
 
